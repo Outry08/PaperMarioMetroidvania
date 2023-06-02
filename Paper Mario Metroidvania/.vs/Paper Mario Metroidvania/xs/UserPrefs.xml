@@ -1,16 +1,12 @@
 ﻿<Properties StartupConfiguration="{F5160B87-0B55-A80A-C941-EFC97EC7CF4F}|">
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scrpts/PlayerController.cs">
     <Files>
-      <File FileName="Assets/Scrpts/PlayerController.cs" Line="5" Column="1" />
+      <File FileName="Assets/Scrpts/PlayerController.cs" Line="11" Column="35" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="Paper Mario Metroidvania" expanded="True">
-            <Node name="Assets" expanded="True" selected="True">
-              <Node name="Scrpts" expanded="True" />
-            </Node>
-          </Node>
+          <Node name="Paper Mario Metroidvania" expanded="True" selected="True" />
         </State>
       </Pad>
     </Pads>
