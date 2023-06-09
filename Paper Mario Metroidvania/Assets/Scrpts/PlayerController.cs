@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     public Rigidbody2D rb;
     public InputAction playerMovement;
-    //public InputAction playerJump;
+    public Animator animator;
     Vector2 moveDirection = Vector2.zero;
     Vector2 facingLeft;
     Vector2 facingRight;
@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 
     bool onGround = false;
     bool isFacingLeft = false;
+    bool isCrouching = false;
 
     private void OnEnable()
     {
@@ -42,12 +43,20 @@ public class PlayerController : MonoBehaviour
     {
         //Moving left and right
         moveDirection = playerMovement.ReadValue<Vector2>();
-        rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
-        if (Input.GetKeyDown(KeyCode.A))
+        if(!isCrouching)
+        {
+            rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
+        }
+        else
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
+
+        if (Input.GetKey(KeyCode.A) && moveDirection.x < 0)
         {
             isFacingLeft = true;
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D) && moveDirection.x > 0)
         {
             isFacingLeft = false;
         }
@@ -56,10 +65,12 @@ public class PlayerController : MonoBehaviour
         {
             transform.localScale = facingLeft;
         }
-        if (!isFacingLeft)
+        else if (!isFacingLeft)
         {
             transform.localScale = facingRight;
         }
+
+        animator.SetFloat("xSpeed", Mathf.Abs(rb.velocity.x));
 
         //Jumping
         if (Input.GetKeyDown(KeyCode.Space) && onGround)
@@ -70,6 +81,21 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = new Vector2(moveDirection.x * moveSpeed, 1);
         }
+
+        animator.SetFloat("ySpeed", rb.velocity.y);
+
+        //Crouching
+        //NEXT, MAKE HITBOX CHANGE
+        if (Input.GetKey(KeyCode.S) && onGround)
+        {
+            isCrouching = true;
+        }
+        else
+        {
+            isCrouching = false;
+        }
+
+        animator.SetBool("isCrouching", isCrouching);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
