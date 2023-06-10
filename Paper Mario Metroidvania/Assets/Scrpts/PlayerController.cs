@@ -9,11 +9,19 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D rb;
     public InputAction playerMovement;
     public Animator animator;
+    public BoxCollider2D collider;
+
     Vector2 moveDirection = Vector2.zero;
     Vector2 facingLeft;
     Vector2 facingRight;
+
     public float moveSpeed = 5f;
     public float jumpSpeed = 10f;
+
+    float xStandBox = 1.619639f;
+    float yStandBox = 2.750306f;
+    float xCrouchBox = 1.818233f;
+    float yCrouchBox = 2.023757f;
 
     bool onGround = false;
     bool isFacingLeft = false;
@@ -22,7 +30,6 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         playerMovement.Enable();
-        //playerJump.Enable();
     }
 
     private void OnDisable()
@@ -36,6 +43,7 @@ public class PlayerController : MonoBehaviour
     {
         facingLeft = new Vector2(-transform.localScale.x, transform.localScale.y);
         facingRight = new Vector2(transform.localScale.x, transform.localScale.y);
+        
     }
 
     // Update is called once per frame
@@ -88,10 +96,19 @@ public class PlayerController : MonoBehaviour
         //NEXT, MAKE HITBOX CHANGE
         if (Input.GetKey(KeyCode.S) && onGround)
         {
+            if(!isCrouching)
+            {
+                collider.size = new Vector2(xCrouchBox, yCrouchBox);
+                rb.position = new Vector2(rb.position.x, rb.position.y - (yStandBox - yCrouchBox));
+            }
             isCrouching = true;
         }
         else
         {
+            if(isCrouching)
+            {
+                collider.size = new Vector2(xStandBox, yStandBox);
+            }
             isCrouching = false;
         }
 

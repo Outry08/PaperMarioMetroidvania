@@ -499,6 +499,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1154328201}
     - target: {fileID: 2001339057519807662, guid: 878cab3e8900e4518b09c21b4df40f56, type: 3}
+      propertyPath: collider
+      value: 
+      objectReference: {fileID: 1154328205}
+    - target: {fileID: 2001339057519807662, guid: 878cab3e8900e4518b09c21b4df40f56, type: 3}
+      propertyPath: standing
+      value: 
+      objectReference: {fileID: 1154328205}
+    - target: {fileID: 2001339057519807662, guid: 878cab3e8900e4518b09c21b4df40f56, type: 3}
+      propertyPath: crouching
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2001339057519807662, guid: 878cab3e8900e4518b09c21b4df40f56, type: 3}
       propertyPath: jumpSpeed
       value: 15
       objectReference: {fileID: 0}
