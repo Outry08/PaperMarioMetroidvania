@@ -1,14 +1,17 @@
 ﻿<Properties StartupConfiguration="{F5160B87-0B55-A80A-C941-EFC97EC7CF4F}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scrpts/PlayerController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scrpts/Enemy.cs">
     <Files>
-      <File FileName="Assets/Scrpts/PlayerController.cs" Line="178" Column="108" />
+      <File FileName="Assets/Scrpts/PlayerController.cs" Line="29" Column="21" />
+      <File FileName="Assets/Scrpts/Enemy.cs" Line="15" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="Paper Mario Metroidvania" expanded="True" selected="True">
+          <Node name="Paper Mario Metroidvania" expanded="True">
             <Node name="Assets" expanded="True">
-              <Node name="Scrpts" expanded="True" />
+              <Node name="Scrpts" expanded="True">
+                <Node name="Enemy.cs" selected="True" />
+              </Node>
             </Node>
           </Node>
         </State>
@@ -17,7 +20,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="80d2af59-71ec-440e-8c40-45779397263c" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="50a24679-53a3-4f3c-b59b-fd09870e895d" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

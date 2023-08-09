@@ -9,8 +9,9 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D rb;
     public InputAction playerMovement;
     public Animator animator;
-    public CapsuleCollider2D bodyCollider;
+    public BoxCollider2D bodyCollider;
     public BoxCollider2D footCollider;
+    public BoxCollider2D headCollider;
 
     Vector2 moveDirection = Vector2.zero;
     Vector2 facingLeft;
@@ -32,6 +33,8 @@ public class PlayerController : MonoBehaviour
     //float yFootStandOff = -1.268088f;
     float yFootStandOff;
     float yFootCrouchOff = -1.011846f;
+    float yHeadStandOff;
+    float yHeadCrouchOff = 1f;
 
     bool onGround = false;
     bool isFacingLeft = false;
@@ -59,6 +62,7 @@ public class PlayerController : MonoBehaviour
         xStandOff = bodyCollider.offset.x;
         yStandOff = bodyCollider.offset.y;
         yFootStandOff = footCollider.offset.y;
+        yHeadStandOff = headCollider.offset.y;
     }
 
     // Update is called once per frame
@@ -74,26 +78,37 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //if(collision.collider.GetType() == typeof(BoxCollider2D) && collision.gameObject.tag == "Ground")
-        //{
-        //    onGround = true;
-        //}
+
         Collider2D collided = collision.collider;
-        
+
+        //Ground + Foot collision
         if(footCollider.IsTouching(collided) && collided.gameObject.tag == "Ground") {
             onGround = true;
             Debug.Log("On the ground");
         }
+
+        //Jumping off of an enemy
+        if (footCollider.IsTouching(collided) && collided.gameObject.tag == "Enemy" && (collided.GetType() == typeof(BoxCollider2D)))
+        {
+            //If holding space, bounce higher
+            if(Input.GetKey(KeyCode.Space))
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpSpeed + 2);
+            }
+            //Else, don't bounce as high
+            else
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpSpeed - 7);
+            }
+            
+        }
+
+
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        //if (collision.collider.GetType() == typeof(BoxCollider2D) && collision.gameObject.tag == "Ground")
-        //{
-        //    onGround = false;
-        //}
-
-
+        //Ground + Foot collision
         if (onGround && collision.gameObject.tag == "Ground")
         {
             onGround = false;
@@ -105,6 +120,7 @@ public class PlayerController : MonoBehaviour
     {
         //Moving left and right
         moveDirection = playerMovement.ReadValue<Vector2>();
+
         if (!isCrouching)
         {
             rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
@@ -163,6 +179,9 @@ public class PlayerController : MonoBehaviour
                 bodyCollider.size = new Vector2(xStandBox, yCrouchBox);
                 bodyCollider.offset = new Vector2(xStandOff, yCrouchOff);
                 footCollider.offset = new Vector2(xStandOff, yFootCrouchOff);
+
+                headCollider.offset = new Vector2(xStandOff, yHeadCrouchOff);
+
                 rb.position = new Vector2(rb.position.x, rb.position.y + (yFootStandOff - yFootCrouchOff + footCollider.size.y/2));
             }
             isCrouching = true;
@@ -174,6 +193,9 @@ public class PlayerController : MonoBehaviour
                 bodyCollider.size = new Vector2(xStandBox, yStandBox);
                 bodyCollider.offset = new Vector2(xStandOff, yStandOff);
                 footCollider.offset = new Vector2(xStandOff, yFootStandOff);
+
+                headCollider.offset = new Vector2(xStandOff, yHeadStandOff);
+
                 rb.position = new Vector2(rb.position.x, rb.position.y - (yFootStandOff - yFootCrouchOff + 0.12f));
                 //0.12 because it's the height of the foot collider rounded up to keep Mario on the ground.
             }
