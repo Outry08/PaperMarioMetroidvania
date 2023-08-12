@@ -1,26 +1,13 @@
 ﻿<Properties StartupConfiguration="{F5160B87-0B55-A80A-C941-EFC97EC7CF4F}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scrpts/Enemy.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scrpts/PlayerController.cs">
     <Files>
-      <File FileName="Assets/Scrpts/PlayerController.cs" Line="29" Column="21" />
-      <File FileName="Assets/Scrpts/Enemy.cs" Line="15" Column="1" />
+      <File FileName="Assets/Scrpts/PlayerController.cs" Line="84" Column="10" />
+      <File FileName="Assets/Scrpts/Enemy.cs" Line="40" Column="9" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="Paper Mario Metroidvania" expanded="True">
-            <Node name="Assets" expanded="True">
-              <Node name="Scrpts" expanded="True">
-                <Node name="Enemy.cs" selected="True" />
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="50a24679-53a3-4f3c-b59b-fd09870e895d" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="69af5d80-0450-443f-928a-dbecf20ef6c2" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

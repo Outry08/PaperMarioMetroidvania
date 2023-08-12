@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpSpeed = 10f;
 
+    public int health = 10;
+    public int atk = 1;
+
     //float xStandBox = 1.318955f;
     //float yStandBox = 2.162776f;
     //float xStandOff = -0.01298897f;
@@ -35,6 +38,9 @@ public class PlayerController : MonoBehaviour
     float yFootCrouchOff = -1.011846f;
     float yHeadStandOff;
     float yHeadCrouchOff = 1f;
+
+    int stunTimer;
+    int iFrames;
 
     bool onGround = false;
     bool isFacingLeft = false;
@@ -68,11 +74,31 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontalMovement();
 
-        jump();
+        if(stunTimer > 0)
+        {
+            stunTimer--;
+            animator.SetInteger("stunTime", stunTimer);
+        }
+        if(iFrames > 0)
+        {
+            iFrames--;
+        }
 
-        crouch();
+
+        if(stunTimer == 0)
+        {
+            horizontalMovement();
+
+            jump();
+
+            crouch();
+        }
+
+        if (health <= 0)
+        {
+            this.gameObject.SetActive(false);
+        }
 
     }
 
@@ -80,27 +106,55 @@ public class PlayerController : MonoBehaviour
     {
 
         Collider2D collided = collision.collider;
+        int knockX = 7;
+        int knockY = 8;
+        int highBounce = 15;
+        int lowBounce = 8;
 
         //Ground + Foot collision
         if(footCollider.IsTouching(collided) && collided.gameObject.tag == "Ground") {
             onGround = true;
+            animator.SetBool("onGround", onGround);
             Debug.Log("On the ground");
         }
 
         //Jumping off of an enemy
-        if (footCollider.IsTouching(collided) && collided.gameObject.tag == "Enemy" && (collided.GetType() == typeof(BoxCollider2D)))
+        if (footCollider.IsTouching(collided) && collided.gameObject.tag == "Enemy" && collided.GetType() == typeof(BoxCollider2D))
         {
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+
             //If holding space, bounce higher
-            if(Input.GetKey(KeyCode.Space))
-            {
-                rb.velocity = new Vector2(rb.velocity.x, jumpSpeed + 2);
-            }
+            if (Input.GetKey(KeyCode.Space))
+                rb.velocity = new Vector2(rb.velocity.x, highBounce);
             //Else, don't bounce as high
             else
+                rb.velocity = new Vector2(rb.velocity.x, lowBounce);
+
+            Debug.Log("Bounce!");
+
+            enemy.takeDamage(atk);
+
+        }
+
+        if ((bodyCollider.IsTouching(collided) || headCollider.IsTouching(collided)) && collided.gameObject.tag == "Enemy")
+        {
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+
+            if (collided.attachedRigidbody.position.x < rb.position.x)
             {
-                rb.velocity = new Vector2(rb.velocity.x, jumpSpeed - 7);
+                rb.velocity = new Vector2(knockX, knockY);
             }
-            
+            else
+            {
+                rb.velocity = new Vector2(-knockX, knockY);
+            }
+
+            stunTimer = 30;
+            iFrames = 180;
+
+            health -= enemy.getAtk();
+
+            Debug.Log("OUCH!\nHEATLH: " + health);
         }
 
 
@@ -112,6 +166,7 @@ public class PlayerController : MonoBehaviour
         if (onGround && collision.gameObject.tag == "Ground")
         {
             onGround = false;
+            animator.SetBool("onGround", onGround);
             Debug.Log("Off the ground");
         }
     }
@@ -122,32 +177,20 @@ public class PlayerController : MonoBehaviour
         moveDirection = playerMovement.ReadValue<Vector2>();
 
         if (!isCrouching)
-        {
             rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
-        }
         else if(isCrouching && rb.velocity.x > 0)
-        {
             rb.velocity = new Vector2(0, rb.velocity.y);
-        }
 
         //Direction facing
         if (Input.GetKey(KeyCode.A) && moveDirection.x < 0)
-        {
             isFacingLeft = true;
-        }
         else if (Input.GetKey(KeyCode.D) && moveDirection.x > 0)
-        {
             isFacingLeft = false;
-        }
 
         if (isFacingLeft)
-        {
             transform.localScale = facingLeft;
-        }
         else if (!isFacingLeft)
-        {
             transform.localScale = facingRight;
-        }
 
         animator.SetFloat("xSpeed", Mathf.Abs(rb.velocity.x));
 
@@ -157,13 +200,9 @@ public class PlayerController : MonoBehaviour
     {
         //Jumping
         if (Input.GetKeyDown(KeyCode.Space) && onGround)
-        {
             rb.velocity = new Vector2(moveDirection.x * moveSpeed, jumpSpeed);
-        }
         else if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0)
-        {
             rb.velocity = new Vector2(moveDirection.x * moveSpeed, 1);
-        }
 
         animator.SetFloat("ySpeed", rb.velocity.y);
 
@@ -204,5 +243,14 @@ public class PlayerController : MonoBehaviour
 
         animator.SetBool("isCrouching", isCrouching);
 
+    }
+
+    public int getHealth()
+    {
+        return health;
+    }
+    public void setHealth(int num)
+    {
+        health = num;
     }
 }
