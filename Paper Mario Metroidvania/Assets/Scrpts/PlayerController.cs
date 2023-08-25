@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
     bool onGround = false;
     bool isFacingLeft = false;
     bool isCrouching = false;
+    bool touchingWall = false, wallIsLeft;
 
     private void OnEnable()
     {
@@ -140,7 +141,7 @@ public class PlayerController : MonoBehaviour
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
 
-            if (collided.attachedRigidbody.position.x < rb.position.x)
+            if (collided.transform.position.x < this.transform.position.x)
             {
                 rb.velocity = new Vector2(knockX, knockY);
             }
@@ -157,6 +158,16 @@ public class PlayerController : MonoBehaviour
             Debug.Log("OUCH!\nHEATLH: " + health);
         }
 
+        if(collided.gameObject.tag.Equals("Wall"))
+        {
+            touchingWall = true;
+            if (collided.transform.position.x < this.transform.position.x)
+                wallIsLeft = true;
+            else
+                wallIsLeft = false;
+            Debug.Log("Is wall left?   " + wallIsLeft);
+        }
+
 
     }
 
@@ -169,12 +180,18 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("onGround", onGround);
             Debug.Log("Off the ground");
         }
+
+        if (collision.gameObject.tag.Equals("Wall"))
+            touchingWall = false;
     }
 
     private void horizontalMovement()
     {
         //Moving left and right
         moveDirection = playerMovement.ReadValue<Vector2>();
+
+        if(touchingWall && ((moveDirection.x < 0 && wallIsLeft) || (moveDirection.x > 0 && !wallIsLeft)))
+            moveDirection.x = 0;
 
         if (!isCrouching)
             rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
