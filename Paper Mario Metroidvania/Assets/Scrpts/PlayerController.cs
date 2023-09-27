@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 
 public class PlayerController : MonoBehaviour
@@ -12,6 +13,8 @@ public class PlayerController : MonoBehaviour
     public BoxCollider2D bodyCollider;
     public BoxCollider2D footCollider;
     public BoxCollider2D headCollider;
+
+    public TextTracker damageText;
 
     Vector2 moveDirection = Vector2.zero;
     Vector2 facingLeft;
@@ -134,9 +137,10 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Bounce!");
 
             enemy.takeDamage(atk);
-
+            damageText.showDamage(footCollider.transform.position, atk, 'y');
         }
 
+        //Taking damage from an enemy
         if ((bodyCollider.IsTouching(collided) || headCollider.IsTouching(collided)) && collided.gameObject.tag == "Enemy")
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
@@ -150,14 +154,16 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector2(-knockX, knockY);
             }
 
-            stunTimer = 30;
-            iFrames = 180;
+            stunTimer = 150;
+            iFrames = stunTimer * 2;
 
             health -= enemy.getAtk();
+            damageText.showDamage(bodyCollider.transform.position, atk, 'r');
 
             Debug.Log("OUCH!\nHEATLH: " + health);
         }
 
+        //Wall collision
         if(collided.gameObject.tag.Equals("Wall"))
         {
             touchingWall = true;
