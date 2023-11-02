@@ -87,10 +87,14 @@ public class PlayerController : MonoBehaviour
         if(iFrames > 0)
         {
             iFrames--;
+            if (iFrames % 60 > 30)
+                animator.SetBool("isInvisible", true);
+            else
+                animator.SetBool("isInvisible", false);
         }
 
 
-        if(stunTimer == 0)
+        if (stunTimer == 0)
         {
             horizontalMovement();
 
@@ -110,8 +114,6 @@ public class PlayerController : MonoBehaviour
     {
 
         Collider2D collided = collision.collider;
-        int knockX = 7;
-        int knockY = 8;
         int highBounce = 15;
         int lowBounce = 8;
 
@@ -141,27 +143,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //Taking damage from an enemy
-        if ((bodyCollider.IsTouching(collided) || headCollider.IsTouching(collided)) && collided.gameObject.tag == "Enemy")
-        {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-
-            if (collided.transform.position.x < this.transform.position.x)
-            {
-                rb.velocity = new Vector2(knockX, knockY);
-            }
-            else
-            {
-                rb.velocity = new Vector2(-knockX, knockY);
-            }
-
-            stunTimer = 150;
-            iFrames = stunTimer * 2;
-
-            health -= enemy.getAtk();
-            damageText.showDamage(bodyCollider.transform.position, atk, 'r');
-
-            Debug.Log("OUCH!\nHEATLH: " + health);
-        }
+        takeDamageFromEnemy(collided);
 
         //Wall collision
         if(collided.gameObject.tag.Equals("Wall"))
@@ -175,6 +157,13 @@ public class PlayerController : MonoBehaviour
         }
 
 
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        Collider2D collided = collision.collider;
+
+        takeDamageFromEnemy(collided);
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -191,6 +180,30 @@ public class PlayerController : MonoBehaviour
             touchingWall = false;
     }
 
+    private void takeDamageFromEnemy(Collider2D collided)
+    {
+        int knockX = 7;
+        int knockY = 8;
+
+        if ((bodyCollider.IsTouching(collided) || headCollider.IsTouching(collided)) && collided.gameObject.tag == "Enemy" && iFrames == 0)
+        {
+            Enemy enemy = collided.gameObject.GetComponent<Enemy>();
+
+            if (collided.transform.position.x < this.transform.position.x)
+                rb.velocity = new Vector2(knockX, knockY);
+            else
+                rb.velocity = new Vector2(-knockX, knockY);
+
+            stunTimer = 150;
+            iFrames = 780;
+
+            health -= enemy.getAtk();
+            damageText.showDamage(bodyCollider.transform.position, atk, 'r');
+
+            Debug.Log("OUCH!\nHEATLH: " + health);
+        }
+    }
+
     private void horizontalMovement()
     {
         //Moving left and right
@@ -201,8 +214,6 @@ public class PlayerController : MonoBehaviour
 
         if (!isCrouching)
             rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
-        else if(isCrouching && rb.velocity.x > 0)
-            rb.velocity = new Vector2(0, rb.velocity.y);
 
         //Direction facing
         if (Input.GetKey(KeyCode.A) && moveDirection.x < 0)
