@@ -8,20 +8,45 @@ public class CameraController : MonoBehaviour
     public Camera cam;
     public PlayerController player;
 
+    public Transform leftBound;
+    public Transform rightBound;
+    public Transform topBound;
+    public Transform bottomBound;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        //leftBound = null;
+        //rightBound = null;
+        //topBound = null;
+        //bottomBound = null;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //double leftEdge = cam.gameObject.transform.position.x - cam.pixelWidth / 2;
-        //double rightEdge = cam.gameObject.transform.position.x + cam.pixelWidth / 2;
-        //double topEdge = cam.gameObject.transform.position.y + cam.pixelHeight / 2;
-        //double bottomEdge = cam.gameObject.transform.position.y - cam.pixelHeight / 2;
+        float camx = cam.gameObject.transform.position.x;
+        float camy = cam.gameObject.transform.position.y;
 
-        cam.gameObject.transform.SetPositionAndRotation(new Vector3(player.transform.position.x, player.transform.position.y, cam.gameObject.transform.position.z), cam.gameObject.transform.rotation);
+        //I wish this worked:
+        //float leftEdge = camx - cam.sensorSize.x / 2 - 2;
+        //float rightEdge = camx + cam.sensorSize.x / 2 - 2;
+        //float topEdge = camy + cam.sensorSize.y / 2;
+        //float bottomEdge = camy - cam.sensorSize.y / 2;
+        float leftEdge = camx - 13.5f;
+        float rightEdge = camx + 13.5f;
+        float topEdge = camy + 6.7f;
+        float bottomEdge = camy - 6.7f;
+
+        float playerx = player.transform.position.x;
+        float playery = player.transform.position.y;
+
+        if ((leftBound != null && leftEdge + playerx - camx < leftBound.position.x) || (rightBound != null && rightEdge + playerx - camx > rightBound.position.x))
+            playerx = camx;
+
+        if ((topBound != null && topEdge + playery - camy > topBound.position.y) || (bottomBound != null && bottomEdge + playery - camy < bottomBound.position.y))
+            playery = camy;
+
+        cam.gameObject.transform.SetPositionAndRotation(new Vector3(playerx, playery, cam.gameObject.transform.position.z), cam.gameObject.transform.rotation);
     }
 }

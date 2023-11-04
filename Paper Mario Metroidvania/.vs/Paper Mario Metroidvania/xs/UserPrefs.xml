@@ -1,25 +1,36 @@
 ﻿<Properties StartupConfiguration="{F5160B87-0B55-A80A-C941-EFC97EC7CF4F}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/HealthText.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scrpts/CameraController.cs">
     <Files>
-      <File FileName="Assets/Scrpts/PlayerController.cs" Line="149" Column="14" />
-      <File FileName="Assets/Scrpts/Enemy.cs" Line="21" Column="20" />
-      <File FileName="Assets/HealthText.cs" Line="15" Column="6" />
+      <File FileName="Assets/Scrpts/PlayerController.cs" Line="75" Column="47" />
+      <File FileName="Assets/Scrpts/Enemy.cs" Line="81" Column="47" />
+      <File FileName="Assets/Scrpts/TextTracker.cs" Line="79" Column="26" />
+      <File FileName="Assets/Scrpts/CameraController.cs" Line="42" Column="53" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Paper Mario Metroidvania" expanded="True">
             <Node name="Assets" expanded="True">
-              <Node name="HealthText.cs" selected="True" />
+              <Node name="Scrpts" expanded="True">
+                <Node name="CameraController.cs" selected="True" />
+              </Node>
             </Node>
           </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="Unity" expanded="True" selected="True" />
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="9bdd17b1-728b-430b-91c7-42120d9c6204" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="d4a3809d-80c9-45d9-95ef-aeef7b125650" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

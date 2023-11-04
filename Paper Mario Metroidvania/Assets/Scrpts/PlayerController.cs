@@ -153,6 +153,7 @@ public class PlayerController : MonoBehaviour
                 wallIsLeft = true;
             else
                 wallIsLeft = false;
+
             Debug.Log("Is wall left?   " + wallIsLeft);
         }
 
@@ -200,7 +201,7 @@ public class PlayerController : MonoBehaviour
             health -= enemy.getAtk();
             damageText.showDamage(bodyCollider.transform.position, atk, 'r');
 
-            Debug.Log("OUCH!\nHEATLH: " + health);
+            Debug.Log("OUCH!");
         }
     }
 

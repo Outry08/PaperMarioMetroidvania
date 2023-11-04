@@ -66,21 +66,36 @@ public class Enemy : MonoBehaviour
 
         if (bodyCollider.IsTouching(collided) && collided.gameObject.tag != "Player" && shouldTurnAround(collided))
             isFacingLeft = !isFacingLeft;
-        else if(bodyCollider.IsTouching(collided) && collided.gameObject.tag == "Player" && shouldTurnAround(collided))
+        else if(bodyCollider.IsTouching(collided) && collided.gameObject.tag == "Player" && shouldTurnAround(collided) && !isTouchingPlayerFoot(collided))
             waitBeforeTurn = 7;
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
         Collider2D collided = collision.collider;
-        if (bodyCollider.IsTouching(collided) && collided.gameObject.tag == "Player" && waitBeforeTurn != 0)
-            waitBeforeTurn--;
-        else if((waitBeforeTurn == 0 && collided.gameObject.tag == "Player" && shouldTurnAround(collided)) || shouldTurnAround(collided))
-            isFacingLeft = !isFacingLeft;
+        if (bodyCollider.IsTouching(collided) && collided.gameObject.tag == "Player")
+        {
+            if(waitBeforeTurn != 0)
+            {
+                waitBeforeTurn--;
+            }
+            else if(shouldTurnAround(collided))
+            {
+                isFacingLeft = !isFacingLeft;
+            }
+            
+        }
+            
+        //else if((waitBeforeTurn == 0 && collided.gameObject.tag == "Player" && shouldTurnAround(collided) && collided.gameObject.GetComponent<PlayerController>().footCollider != collided) || shouldTurnAround(collided))
+            
     }
 
     private bool shouldTurnAround(Collider2D collided)
     {
         return ((collided.gameObject.transform.position.x <= rb.position.x && isFacingLeft) || (collided.gameObject.transform.position.x >= rb.position.x && !isFacingLeft)) && collided.gameObject.tag != "Ground";
+    }
+    private bool isTouchingPlayerFoot(Collider2D collided)
+    {
+        return collided.gameObject.tag == "Player" && collided.gameObject.GetComponent<PlayerController>().footCollider == collided;
     }
 
     public int getHealth()
@@ -94,8 +109,11 @@ public class Enemy : MonoBehaviour
     public void takeDamage(int num)
     {
         health -= num;
-        if (health <= 0)
+        if (health <= 0) {
             damageTimer = 150;
+            this.gameObject.layer = 6;
+        }
+
         else
             damageTimer = 90;
         

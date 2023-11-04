@@ -11,10 +11,10 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Camera
   - Water
   - UI
-  - 
+  - DeadEnemies
   - 
   - 
   - 
@@ -44,9 +44,15 @@ TagManager:
   - name: Background
     uniqueID: 2465825127
     locked: 0
+  - name: DeadEnemies
+    uniqueID: 1469734421
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: UI
     uniqueID: 42729249
+    locked: 0
+  - name: Camera
+    uniqueID: 470581127
     locked: 0

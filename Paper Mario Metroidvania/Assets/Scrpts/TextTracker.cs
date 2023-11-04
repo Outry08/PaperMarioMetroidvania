@@ -78,8 +78,5 @@ public class TextTracker : MonoBehaviour
         star.gameObject.SetActive(true);
         appearTime = 120;
 
-        Debug.Log(damageText.transform.position);
-
-
     }
 }
