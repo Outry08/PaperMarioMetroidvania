@@ -66,23 +66,23 @@ public class Enemy : MonoBehaviour
 
         if (bodyCollider.IsTouching(collided) && collided.gameObject.tag != "Player" && shouldTurnAround(collided))
             isFacingLeft = !isFacingLeft;
-        else if(bodyCollider.IsTouching(collided) && collided.gameObject.tag == "Player" && shouldTurnAround(collided) && !isTouchingPlayerFoot(collided))
+        else if(bodyCollider.IsTouching(collided) && collided.gameObject.tag == "Player" && shouldTurnAround(collided))
             waitBeforeTurn = 7;
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
         Collider2D collided = collision.collider;
-        if (bodyCollider.IsTouching(collided) && collided.gameObject.tag == "Player")
-        {
-            if(waitBeforeTurn != 0)
-            {
+        if (bodyCollider.IsTouching(collided) && collided.gameObject.tag == "Player") {
+            if(waitBeforeTurn != 0) {
                 waitBeforeTurn--;
             }
-            else if(shouldTurnAround(collided))
-            {
+            else if(shouldTurnAround(collided)) {
                 isFacingLeft = !isFacingLeft;
             }
             
+        }
+        else if(bodyCollider.IsTouching(collided) && shouldTurnAround(collided)) {
+            isFacingLeft = !isFacingLeft;
         }
             
         //else if((waitBeforeTurn == 0 && collided.gameObject.tag == "Player" && shouldTurnAround(collided) && collided.gameObject.GetComponent<PlayerController>().footCollider != collided) || shouldTurnAround(collided))
@@ -91,11 +91,11 @@ public class Enemy : MonoBehaviour
 
     private bool shouldTurnAround(Collider2D collided)
     {
-        return ((collided.gameObject.transform.position.x <= rb.position.x && isFacingLeft) || (collided.gameObject.transform.position.x >= rb.position.x && !isFacingLeft)) && collided.gameObject.tag != "Ground";
+        return ((collided.gameObject.transform.position.x <= rb.position.x && isFacingLeft) || (collided.gameObject.transform.position.x >= rb.position.x && !isFacingLeft)) && collided.gameObject.tag != "Ground" && !isPlayerOnGround(collided) && waitBeforeTurn == 0;
     }
-    private bool isTouchingPlayerFoot(Collider2D collided)
+    private bool isPlayerOnGround(Collider2D collided)
     {
-        return collided.gameObject.tag == "Player" && collided.gameObject.GetComponent<PlayerController>().footCollider == collided;
+        return collided.gameObject.tag == "Player" && collided.gameObject.GetComponent<PlayerController>().onGround;
     }
 
     public int getHealth()
@@ -111,7 +111,7 @@ public class Enemy : MonoBehaviour
         health -= num;
         if (health <= 0) {
             damageTimer = 150;
-            this.gameObject.layer = 6;
+            this.gameObject.layer = LayerMask.NameToLayer("DeadEnemies");
         }
 
         else

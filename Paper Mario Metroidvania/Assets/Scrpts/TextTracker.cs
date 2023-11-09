@@ -63,12 +63,10 @@ public class TextTracker : MonoBehaviour
         
         
 
-        if (colour == 'y')
-        {
+        if (colour == 'y') {
             star = damageDealStar;
         }
-        else
-        {
+        else {
             star = damageTakeStar;
         }
 

@@ -41,12 +41,19 @@ public class CameraController : MonoBehaviour
         float playerx = player.transform.position.x;
         float playery = player.transform.position.y;
 
-        if ((leftBound != null && leftEdge + playerx - camx < leftBound.position.x) || (rightBound != null && rightEdge + playerx - camx > rightBound.position.x))
-            playerx = camx;
+        if (!player.isDead()) {
+            if (leftBound != null && leftEdge + playerx - camx < leftBound.position.x)
+                playerx = leftBound.position.x + camx - leftEdge;
+            if (rightBound != null && rightEdge + playerx - camx > rightBound.position.x)
+                playerx = rightBound.position.x + camx - rightEdge;
 
-        if ((topBound != null && topEdge + playery - camy > topBound.position.y) || (bottomBound != null && bottomEdge + playery - camy < bottomBound.position.y))
-            playery = camy;
+            if (topBound != null && topEdge + playery - camy > topBound.position.y)
+                playery = topBound.position.y + camy - topEdge;
+            if (bottomBound != null && bottomEdge + playery - camy < bottomBound.position.y)
+                playery = bottomBound.position.y + camy - bottomEdge;
 
-        cam.gameObject.transform.SetPositionAndRotation(new Vector3(playerx, playery, cam.gameObject.transform.position.z), cam.gameObject.transform.rotation);
+            cam.gameObject.transform.SetPositionAndRotation(new Vector3(playerx, playery, cam.gameObject.transform.position.z), cam.gameObject.transform.rotation);
+        }
+        
     }
 }

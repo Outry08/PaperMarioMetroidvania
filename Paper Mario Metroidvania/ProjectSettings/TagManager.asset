@@ -15,8 +15,8 @@ TagManager:
   - Water
   - UI
   - DeadEnemies
-  - 
-  - 
+  - DeadMario
+  - Ground
   - 
   - 
   - 
@@ -41,7 +41,7 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Background
+  - name: Backgrounds
     uniqueID: 2465825127
     locked: 0
   - name: DeadEnemies
@@ -49,6 +49,12 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 15516953
+    locked: 0
+  - name: DeadMario
+    uniqueID: 690128013
     locked: 0
   - name: UI
     uniqueID: 42729249

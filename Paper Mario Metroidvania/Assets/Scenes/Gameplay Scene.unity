@@ -1428,6 +1428,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2001339057519807662, guid: 878cab3e8900e4518b09c21b4df40f56, type: 3}
+      propertyPath: health
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2001339057519807662, guid: 878cab3e8900e4518b09c21b4df40f56, type: 3}
       propertyPath: damageText
       value: 
       objectReference: {fileID: 218310021}
@@ -1493,6 +1497,10 @@ PrefabInstance:
       value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 5598101925811423764, guid: a7156bd9fc4c5406e892ccea0be1219b, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5598101925811423764, guid: a7156bd9fc4c5406e892ccea0be1219b, type: 3}
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
@@ -1539,6 +1547,14 @@ PrefabInstance:
     - target: {fileID: 5924275128970889496, guid: a7156bd9fc4c5406e892ccea0be1219b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8343615733379380730, guid: a7156bd9fc4c5406e892ccea0be1219b, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8343615733379380730, guid: a7156bd9fc4c5406e892ccea0be1219b, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 15516953
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7156bd9fc4c5406e892ccea0be1219b, type: 3}

@@ -20,11 +20,11 @@ public class PlayerController : MonoBehaviour
     Vector2 facingLeft;
     Vector2 facingRight;
 
-    public float moveSpeed = 5f;
-    public float jumpSpeed = 10f;
+    float moveSpeed = 5f;
+    float jumpSpeed = 13f;
 
-    public int health = 10;
-    public int atk = 1;
+    int health = 10;
+    int atk = 1;
 
     //float xStandBox = 1.318955f;
     //float yStandBox = 2.162776f;
@@ -42,10 +42,11 @@ public class PlayerController : MonoBehaviour
     float yHeadStandOff;
     float yHeadCrouchOff = 1f;
 
-    int stunTimer;
-    int iFrames;
+    int stunTimer = 0;
+    int iFrames = 0;
+    int deadTimer = 0;
 
-    bool onGround = false;
+    public bool onGround = false;
     bool isFacingLeft = false;
     bool isCrouching = false;
     bool touchingWall = false, wallIsLeft;
@@ -78,36 +79,38 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if(stunTimer > 0)
-        {
-            stunTimer--;
-            animator.SetInteger("stunTime", stunTimer);
-        }
-        if(iFrames > 0)
-        {
-            iFrames--;
-            if (iFrames % 60 > 30)
-                animator.SetBool("isInvisible", true);
-            else
-                animator.SetBool("isInvisible", false);
-        }
-
-
-        if (stunTimer == 0)
-        {
-            horizontalMovement();
-
-            jump();
-
-            crouch();
-        }
-
-        if (health <= 0)
-        {
+        if (isDead() && deadTimer == -1) {
+            Debug.Log("DED");
             this.gameObject.SetActive(false);
         }
 
+        if (!isDead()) {
+            if (stunTimer > 0) {
+                stunTimer--;
+                animator.SetInteger("stunTime", stunTimer);
+            }
+            if (iFrames > 0) {
+                iFrames--;
+                if (iFrames % 60 > 30)
+                    animator.SetBool("isInvisible", true);
+                else
+                    animator.SetBool("isInvisible", false);
+            }
+
+
+            if (stunTimer == 0) {
+                horizontalMovement();
+
+                jump();
+
+                crouch();
+            }
+        }
+        
+        if (isDead() && deadTimer >= 0) {
+            Debug.Log(deadTimer);
+            deadTimer--;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -202,6 +205,17 @@ public class PlayerController : MonoBehaviour
             damageText.showDamage(bodyCollider.transform.position, atk, 'r');
 
             Debug.Log("OUCH!");
+
+            if (isDead()) {
+                this.gameObject.layer = LayerMask.NameToLayer("DeadMario");
+                animator.SetBool("isDead", true);
+                deadTimer = 4 * 60;
+                rb.velocity = new Vector2(0, 11f);
+                stunTimer = 0;
+                animator.SetInteger("stunTime", stunTimer);
+                iFrames = 0;
+            }
+
         }
     }
 
@@ -287,5 +301,9 @@ public class PlayerController : MonoBehaviour
     public void setHealth(int num)
     {
         health = num;
+    }
+    public bool isDead()
+    {
+        return getHealth() <= 0;
     }
 }
