@@ -91,7 +91,7 @@ public class Enemy : MonoBehaviour
 
     private bool shouldTurnAround(Collider2D collided)
     {
-        return ((collided.gameObject.transform.position.x <= rb.position.x && isFacingLeft) || (collided.gameObject.transform.position.x >= rb.position.x && !isFacingLeft)) && collided.gameObject.tag != "Ground" && !isPlayerOnGround(collided) && waitBeforeTurn == 0;
+        return ((collided.gameObject.transform.position.x <= rb.position.x && isFacingLeft) || (collided.gameObject.transform.position.x >= rb.position.x && !isFacingLeft)) && collided.gameObject.tag != "Ground"&& waitBeforeTurn == 0;
     }
     private bool isPlayerOnGround(Collider2D collided)
     {
