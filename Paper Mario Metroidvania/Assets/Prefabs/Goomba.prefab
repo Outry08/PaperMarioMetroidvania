@@ -187,4 +187,5 @@ MonoBehaviour:
   animator: {fileID: 674951357}
   headCollider: {fileID: 6062464792973281512}
   bodyCollider: {fileID: 85963289}
+  bouncingCoin: {fileID: 794748135871124149, guid: 22be461adb6814327a39688463753dd8, type: 3}
   xSpeed: 2

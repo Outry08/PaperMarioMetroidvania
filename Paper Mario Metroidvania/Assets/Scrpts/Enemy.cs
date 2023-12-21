@@ -11,6 +11,9 @@ public class Enemy : MonoBehaviour
     public BoxCollider2D headCollider;
     public CapsuleCollider2D bodyCollider;
 
+    public GameObject bouncingCoin;
+    private GameObject coin = null;
+
     Vector2 moveDirection = Vector2.zero;
     Vector2 facingLeft;
     Vector2 facingRight;
@@ -57,7 +60,11 @@ public class Enemy : MonoBehaviour
         animator.SetInteger("damaged", damageTimer);
 
         if (health <= 0 && damageTimer <= 0)
+        {
             this.gameObject.SetActive(false);
+            coin.SetActive(false);
+        }
+            
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -91,7 +98,7 @@ public class Enemy : MonoBehaviour
 
     private bool shouldTurnAround(Collider2D collided)
     {
-        return ((collided.gameObject.transform.position.x <= rb.position.x && isFacingLeft) || (collided.gameObject.transform.position.x >= rb.position.x && !isFacingLeft)) && collided.gameObject.tag != "Ground"&& waitBeforeTurn == 0;
+        return ((collided.gameObject.transform.position.x <= rb.position.x && isFacingLeft) || (collided.gameObject.transform.position.x >= rb.position.x && !isFacingLeft)) && collided.gameObject.tag != "Platform"&& waitBeforeTurn == 0;
     }
     private bool isPlayerOnGround(Collider2D collided)
     {
@@ -112,8 +119,9 @@ public class Enemy : MonoBehaviour
         if (health <= 0) {
             damageTimer = 150;
             this.gameObject.layer = LayerMask.NameToLayer("DeadEnemies");
+            coin = Instantiate(bouncingCoin, new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y + 1, this.gameObject.transform.position.z), Quaternion.identity);
+            coin.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 7);
         }
-
         else
             damageTimer = 90;
         

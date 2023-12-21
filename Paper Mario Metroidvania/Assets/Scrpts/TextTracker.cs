@@ -9,19 +9,23 @@ public class TextTracker : MonoBehaviour
     public PlayerController player;
 
     public Text healthText;
-    private int prevHealth, currentHealth;
+    private int prevHealth, currentHealth, maxHealth;
 
     public Text damageText;
     public SpriteRenderer damageDealStar;
     public SpriteRenderer damageTakeStar;
+
+    public Text coinText;
+    private int prevCoins, currentCoins;
 
     int appearTime = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        prevHealth = player.getHealth();
-        currentHealth = prevHealth;
+        prevHealth = -1;
+        maxHealth = player.getMaxHealth();
+        prevCoins = -1;
     }
 
     // Update is called once per frame
@@ -30,14 +34,20 @@ public class TextTracker : MonoBehaviour
 
         //Health text UI
         currentHealth = player.getHealth();
-        if (currentHealth <= prevHealth)
+        if (currentHealth != prevHealth)
             updateHealthText();
         prevHealth = player.getHealth();
 
+        //Coin text UI
+        currentCoins = player.getNumCoins();
+        if (currentCoins != prevCoins)
+            updateCoinText();
+        prevCoins = player.getNumCoins();
+
+
+        //Damage Text
         if (appearTime > 0)
-        {
             appearTime--;
-        }
 
         if(appearTime == 0)
         {
@@ -50,7 +60,11 @@ public class TextTracker : MonoBehaviour
 
     void updateHealthText()
     {
-        healthText.text = "Health: " + currentHealth;
+        healthText.text = "Health: " + currentHealth + "/" + maxHealth;
+    }
+    void updateCoinText()
+    {
+        coinText.text = "Coins: " + currentCoins;
     }
 
     public void showDamage(Vector2 position, int atk, char colour)

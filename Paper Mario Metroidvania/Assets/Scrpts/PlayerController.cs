@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     int maxHealth = 10;
     int health = 10;
     int atk = 1;
+    int numCoins = 0;
 
     //float xStandBox = 1.318955f;
     //float yStandBox = 2.162776f;
@@ -49,7 +50,7 @@ public class PlayerController : MonoBehaviour
     int deadTimer = 0;
 
     public bool onGround = false;
-    bool onPlat = false;
+    //bool onPlat = false;
     bool isFacingLeft = false;
     bool isCrouching = false;
     bool touchingWall = false, wallIsLeft;
@@ -82,17 +83,21 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isDead() && deadTimer == -1) {
+        if (isDead() && deadTimer == -1)
+        {
             Debug.Log("DED");
             this.gameObject.SetActive(false);
         }
 
-        if (!isDead()) {
-            if (stunTimer > 0) {
+        if (!isDead())
+        {
+            if (stunTimer > 0)
+            {
                 stunTimer--;
                 animator.SetInteger("stunTime", stunTimer);
             }
-            if (iFrames > 0) {
+            if (iFrames > 0)
+            {
                 iFrames--;
                 if (iFrames % 60 > 30)
                     animator.SetBool("isInvisible", true);
@@ -101,7 +106,8 @@ public class PlayerController : MonoBehaviour
             }
 
 
-            if (stunTimer == 0) {
+            if (stunTimer == 0)
+            {
                 horizontalMovement();
 
                 jump();
@@ -109,8 +115,9 @@ public class PlayerController : MonoBehaviour
                 crouch();
             }
         }
-        
-        if (isDead() && deadTimer >= 0) {
+
+        if (isDead() && deadTimer >= 0)
+        {
             Debug.Log(deadTimer);
             deadTimer--;
         }
@@ -124,16 +131,18 @@ public class PlayerController : MonoBehaviour
         int lowBounce = 8;
 
         //Ground + Foot collision
-        if(footCollider.IsTouching(collided) && collided.gameObject.tag == "Ground") {
+        if (footCollider.IsTouching(collided) && collided.gameObject.tag == "Platform")
+        {
             onGround = true;
             animator.SetBool("onGround", onGround);
             Debug.Log("On the ground");
         }
-        else if (footCollider.IsTouching(collided) && collided.gameObject.tag == "Platform") {
-            onPlat = true;
-            animator.SetBool("onGround", onPlat);
-            Debug.Log("On a platform");
-        }
+        //else if (footCollider.IsTouching(collided) && collided.gameObject.tag == "Platform")
+        //{
+        //    onPlat = true;
+        //    animator.SetBool("onGround", onPlat);
+        //    Debug.Log("On a platform");
+        //}
 
         //Jumping off of an enemy
         else if (footCollider.IsTouching(collided) && collided.gameObject.tag == "Enemy" && collided.GetType() == typeof(BoxCollider2D))
@@ -151,12 +160,16 @@ public class PlayerController : MonoBehaviour
 
             enemy.takeDamage(atk);
             damageText.showDamage(footCollider.transform.position, atk, 'y');
+
+            if(enemy.getHealth() <= 0)
+                incrementCoins();
         }
 
-        
+
 
         //Wall collision
-        else if((collided.gameObject.tag.Equals("Wall") || collided.gameObject.tag.Equals("Platform")) && bodyCollider.IsTouching(collided)) {
+        else if ((collided.gameObject.tag.Equals("Wall") || collided.gameObject.tag.Equals("Platform")) && bodyCollider.IsTouching(collided))
+        {
             touchingWall = true;
             if (collided.transform.position.x < this.transform.position.x)
                 wallIsLeft = true;
@@ -177,33 +190,46 @@ public class PlayerController : MonoBehaviour
 
         if (footCollider.IsTouching(collided) && collided.gameObject.tag == "Platform")
         {
-            onPlat = true;
-            animator.SetBool("onGround", onPlat);
-            Debug.Log("On a platform");
+            onGround = true;
+            animator.SetBool("onGround", onGround);
+            Debug.Log("On the ground");
         }
 
         takeDamageFromEnemy(collided);
     }
 
-    private void OnCollisionExit2D(Collision2D collision) {
+    private void OnCollisionExit2D(Collision2D collision)
+    {
 
         Collider2D collided = collision.collider;
 
         //Ground + Foot collision
-        if (onGround && collided.gameObject.tag == "Ground") {
+        if (onGround && collided.gameObject.tag == "Platform")
+        {
             onGround = false;
             Debug.Log("Off the ground");
         }
-        else if (onPlat && collided.gameObject.tag == "Platform")
-        {
-            onPlat = false;
-            Debug.Log("Off the platform");
-        }
+        //else if (onPlat && collided.gameObject.tag == "Platform")
+        //{
+        //    onPlat = false;
+        //    Debug.Log("Off the platform");
+        //}
 
-        animator.SetBool("onGround", onGround || onPlat);
+        // animator.SetBool("onGround", onGround || onPlat);
+        animator.SetBool("onGround", onGround);
 
         if (collided.gameObject.tag.Equals("Wall") || collided.gameObject.tag.Equals("Platform"))
             touchingWall = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collided)
+    {
+        if (collided.tag == "Coin" && bodyCollider.IsTouching(collided))
+        {
+
+            incrementCoins();
+            collided.gameObject.SetActive(false);
+        }
     }
 
     private void takeDamageFromEnemy(Collider2D collided)
@@ -228,7 +254,8 @@ public class PlayerController : MonoBehaviour
 
             Debug.Log("OUCH!");
 
-            if (isDead()) {
+            if (isDead())
+            {
                 this.gameObject.layer = LayerMask.NameToLayer("DeadMario");
                 animator.SetBool("isDead", true);
                 deadTimer = 4 * 60;
@@ -246,7 +273,7 @@ public class PlayerController : MonoBehaviour
         //Moving left and right
         moveDirection = playerMovement.ReadValue<Vector2>();
 
-        if(touchingWall && ((moveDirection.x < 0 && wallIsLeft) || (moveDirection.x > 0 && !wallIsLeft)))
+        if (touchingWall && ((moveDirection.x < 0 && wallIsLeft) || (moveDirection.x > 0 && !wallIsLeft)))
             moveDirection.x = 0;
 
         if (!isCrouching)
@@ -270,7 +297,8 @@ public class PlayerController : MonoBehaviour
     private void jump()
     {
         //Jumping
-        if (Input.GetKeyDown(KeyCode.Space) && (onGround || onPlat))
+        // if (Input.GetKeyDown(KeyCode.Space) && (onGround || onPlat))
+        if (Input.GetKeyDown(KeyCode.Space) && onGround)
             rb.velocity = new Vector2(moveDirection.x * moveSpeed, jumpSpeed);
         else if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0)
             rb.velocity = new Vector2(moveDirection.x * moveSpeed, 1);
@@ -282,7 +310,8 @@ public class PlayerController : MonoBehaviour
     private void crouch()
     {
         //Crouching
-        if (Input.GetKey(KeyCode.S) && (onGround || onPlat))
+        // if (Input.GetKey(KeyCode.S) && (onGround || onPlat))
+        if (Input.GetKey(KeyCode.S) && onGround)
         {
             if (!isCrouching)
             {
@@ -292,7 +321,8 @@ public class PlayerController : MonoBehaviour
 
                 headCollider.offset = new Vector2(xStandOff, yHeadCrouchOff);
 
-                rb.position = new Vector2(rb.position.x, rb.position.y + (yFootStandOff - yFootCrouchOff + footCollider.size.y/2));
+                rb.position = new Vector2(rb.position.x, rb.position.y + (yFootStandOff - yFootCrouchOff + footCollider.size.y / 2));
+                rb.velocity = new Vector2(0, 0);
             }
             isCrouching = true;
         }
@@ -300,18 +330,19 @@ public class PlayerController : MonoBehaviour
         {
             //if (Physics2D.Raycast(transfrm.position, Vector2.up, 5)) {
 
-                if (isCrouching){ 
-                    bodyCollider.size = new Vector2(xStandBox, yStandBox);
-                    bodyCollider.offset = new Vector2(xStandOff, yStandOff);
-                    footCollider.offset = new Vector2(xStandOff, yFootStandOff);
+            if (isCrouching)
+            {
+                bodyCollider.size = new Vector2(xStandBox, yStandBox);
+                bodyCollider.offset = new Vector2(xStandOff, yStandOff);
+                footCollider.offset = new Vector2(xStandOff, yFootStandOff);
 
-                    headCollider.offset = new Vector2(xStandOff, yHeadStandOff);
+                headCollider.offset = new Vector2(xStandOff, yHeadStandOff);
 
-                    rb.position = new Vector2(rb.position.x, rb.position.y - (yFootStandOff - yFootCrouchOff + 0.12f));
+                rb.position = new Vector2(rb.position.x, rb.position.y - (yFootStandOff - yFootCrouchOff + 0.12f));
 
-                    //0.12 because it's the height of the foot collider rounded up to keep Mario on the ground.
-                }
-                isCrouching = false;
+                //0.12 because it's the height of the foot collider rounded up to keep Mario on the ground.
+            }
+            isCrouching = false;
             //}
 
         }
@@ -328,8 +359,31 @@ public class PlayerController : MonoBehaviour
     {
         health = num;
     }
+    public int getMaxHealth()
+    {
+        return maxHealth;
+    }
+    public void setMaxHealth(int max)
+    {
+        maxHealth = max;
+    }
+
     public bool isDead()
     {
         return getHealth() <= 0;
+    }
+
+    public int getNumCoins()
+    {
+        return numCoins;
+    }
+    public void incrementCoins()
+    {
+        numCoins++;
+        if(numCoins % 100 == 0)
+        {
+            setMaxHealth(getMaxHealth() + 5);
+            setHealth(getHealth() + 5);
+        }
     }
 }
