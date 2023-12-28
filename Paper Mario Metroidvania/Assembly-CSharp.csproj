@@ -56,13 +56,13 @@
     <Analyzer Include="/Applications/Visual Studio.app/Contents/Resources/lib/monodevelop/AddIns/MonoDevelop.Unity/Analyzers/Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets/Scrpts/Block.cs" />
-    <Compile Include="Assets/Scrpts/PlayerController.cs" />
-    <Compile Include="Assets/Scrpts/CameraController.cs" />
-    <Compile Include="Assets/Scrpts/Enemy.cs" />
-    <Compile Include="Assets/Scrpts/TextTracker.cs" />
-    <Compile Include="Assets/Scrpts/Mushroom.cs" />
-    <Compile Include="Assets/Scrpts/EnemyPositions.cs" />
+    <Compile Include="Assets/Scripts/Block.cs" />
+    <Compile Include="Assets/Scripts/PlayerController.cs" />
+    <Compile Include="Assets/Scripts/CameraController.cs" />
+    <Compile Include="Assets/Scripts/Enemy.cs" />
+    <Compile Include="Assets/Scripts/Mushroom.cs" />
+    <Compile Include="Assets/Scripts/EnemyPositions.cs" />
+    <Compile Include="Assets/Scripts/TextTracker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
