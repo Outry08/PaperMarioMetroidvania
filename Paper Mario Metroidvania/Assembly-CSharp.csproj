@@ -61,6 +61,8 @@
     <Compile Include="Assets/Scrpts/CameraController.cs" />
     <Compile Include="Assets/Scrpts/Enemy.cs" />
     <Compile Include="Assets/Scrpts/TextTracker.cs" />
+    <Compile Include="Assets/Scrpts/Mushroom.cs" />
+    <Compile Include="Assets/Scrpts/EnemyPositions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

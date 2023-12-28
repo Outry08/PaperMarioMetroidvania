@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
 
         if (isDead() && deadTimer >= 0)
         {
-            Debug.Log(deadTimer);
+            //Debug.Log(deadTimer);
             deadTimer--;
         }
     }
@@ -135,7 +135,7 @@ public class PlayerController : MonoBehaviour
         {
             onGround = true;
             animator.SetBool("onGround", onGround);
-            Debug.Log("On the ground");
+            //Debug.Log("On the ground");
         }
         //else if (footCollider.IsTouching(collided) && collided.gameObject.tag == "Platform")
         //{
@@ -156,7 +156,7 @@ public class PlayerController : MonoBehaviour
             else
                 rb.velocity = new Vector2(rb.velocity.x, lowBounce);
 
-            Debug.Log("Bounce!");
+            //Debug.Log("Bounce!");
 
             enemy.takeDamage(atk);
             damageText.showDamage(footCollider.transform.position, atk, 'y');
@@ -192,7 +192,17 @@ public class PlayerController : MonoBehaviour
         {
             onGround = true;
             animator.SetBool("onGround", onGround);
-            Debug.Log("On the ground");
+            //Debug.Log("On the ground");
+        }
+        else if ((collided.gameObject.tag.Equals("Wall") || collided.gameObject.tag.Equals("Platform")) && bodyCollider.IsTouching(collided))
+        {
+            touchingWall = true;
+            if (collided.transform.position.x < this.transform.position.x)
+                wallIsLeft = true;
+            else
+                wallIsLeft = false;
+
+            Debug.Log("Is wall left?   " + wallIsLeft);
         }
 
         takeDamageFromEnemy(collided);
@@ -207,7 +217,7 @@ public class PlayerController : MonoBehaviour
         if (onGround && collided.gameObject.tag == "Platform")
         {
             onGround = false;
-            Debug.Log("Off the ground");
+            //Debug.Log("Off the ground");
         }
         //else if (onPlat && collided.gameObject.tag == "Platform")
         //{
@@ -218,8 +228,12 @@ public class PlayerController : MonoBehaviour
         // animator.SetBool("onGround", onGround || onPlat);
         animator.SetBool("onGround", onGround);
 
-        if (collided.gameObject.tag.Equals("Wall") || collided.gameObject.tag.Equals("Platform"))
+        if (touchingWall && (collided.gameObject.tag.Equals("Wall") || collided.gameObject.tag.Equals("Platform")))
+        {
             touchingWall = false;
+            Debug.Log("NOTTOUCHINGWALL");
+        }
+            
     }
 
     private void OnTriggerEnter2D(Collider2D collided)
@@ -252,7 +266,7 @@ public class PlayerController : MonoBehaviour
             health -= enemy.getAtk();
             damageText.showDamage(bodyCollider.transform.position, atk, 'r');
 
-            Debug.Log("OUCH!");
+            //Debug.Log("OUCH!");
 
             if (isDead())
             {

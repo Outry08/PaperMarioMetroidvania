@@ -33,11 +33,14 @@ public class Enemy : MonoBehaviour
     {
         facingLeft = new Vector2(transform.localScale.x, transform.localScale.y);
         facingRight = new Vector2(-transform.localScale.x, transform.localScale.y);
+
+        this.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (isFacingLeft)
         {
             xDirection = -1;
@@ -48,13 +51,13 @@ public class Enemy : MonoBehaviour
             xDirection = 1;
             transform.localScale = facingRight;
         }
-            
-        if(damageTimer == 0)
+
+        if (damageTimer == 0)
             rb.velocity = new Vector2(xSpeed * xDirection, rb.velocity.y);
         else
             rb.velocity = new Vector2(0, rb.velocity.y);
-        
-        if(damageTimer > 0)
+
+        if (damageTimer > 0)
             damageTimer--;
 
         animator.SetInteger("damaged", damageTimer);

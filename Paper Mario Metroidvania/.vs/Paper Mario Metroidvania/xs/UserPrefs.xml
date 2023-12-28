@@ -1,11 +1,13 @@
 ﻿<Properties StartupConfiguration="{F5160B87-0B55-A80A-C941-EFC97EC7CF4F}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scrpts/PlayerController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scrpts/EnemyPositions.cs">
     <Files>
-      <File FileName="Assets/Scrpts/PlayerController.cs" Line="325" Column="49" />
-      <File FileName="Assets/Scrpts/Enemy.cs" Line="107" Column="1" />
-      <File FileName="Assets/Scrpts/TextTracker.cs" Line="14" Column="28" />
-      <File FileName="Assets/Scrpts/CameraController.cs" Line="13" Column="31" />
-      <File FileName="Assets/Scrpts/Block.cs" Line="26" Column="38" />
+      <File FileName="Assets/Scrpts/PlayerController.cs" Line="231" Column="116" />
+      <File FileName="Assets/Scrpts/Enemy.cs" Line="39" Column="42" />
+      <File FileName="Assets/Scrpts/EnemyPositions.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scrpts/TextTracker.cs" Line="5" Column="1" />
+      <File FileName="Assets/Scrpts/CameraController.cs" Line="31" Column="13" />
+      <File FileName="Assets/Scrpts/Block.cs" Line="27" Column="124" />
+      <File FileName="Assets/Scrpts/Mushroom.cs" Line="32" Column="46" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,7 +15,7 @@
           <Node name="Paper Mario Metroidvania" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scrpts" expanded="True">
-                <Node name="PlayerController.cs" selected="True" />
+                <Node name="EnemyPositions.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -23,7 +25,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="e108f50d-8415-4a1b-9521-3adb97f3ec8e" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="bb2b37ee-b218-4c8c-80e7-a96186830a3e" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
