@@ -128,6 +128,6 @@ public class TextTracker : MonoBehaviour
 
         currentText.gameObject.SetActive(true);
         heart.gameObject.SetActive(true);
-        activeEventTimers.Add(240);
+        activeEventTimers.Add(480);
     }
 }
