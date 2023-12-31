@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
 
     public BoxCollider2D headCollider;
     public CapsuleCollider2D bodyCollider;
+    public BoxCollider2D footCollider;
 
     public GameObject bouncingCoin;
     private GameObject coin = null;
@@ -34,7 +35,7 @@ public class Enemy : MonoBehaviour
         facingLeft = new Vector2(transform.localScale.x, transform.localScale.y);
         facingRight = new Vector2(-transform.localScale.x, transform.localScale.y);
 
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -101,7 +102,7 @@ public class Enemy : MonoBehaviour
 
     private bool shouldTurnAround(Collider2D collided)
     {
-        return ((collided.gameObject.transform.position.x <= rb.position.x && isFacingLeft) || (collided.gameObject.transform.position.x >= rb.position.x && !isFacingLeft)) && collided.gameObject.tag != "Platform"&& waitBeforeTurn == 0;
+        return ((collided.gameObject.transform.position.x <= rb.position.x && isFacingLeft) || (collided.gameObject.transform.position.x >= rb.position.x && !isFacingLeft)) && !footCollider.IsTouching(collided) && waitBeforeTurn == 0;
     }
     private bool isPlayerOnGround(Collider2D collided)
     {

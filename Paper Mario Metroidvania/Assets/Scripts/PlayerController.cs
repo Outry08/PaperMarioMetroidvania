@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public BoxCollider2D footCollider;
     public BoxCollider2D headCollider;
 
-    public TextTracker damageText;
+    public TextTracker eventText;
 
     Vector2 moveDirection = Vector2.zero;
     Vector2 facingLeft;
@@ -27,7 +27,8 @@ public class PlayerController : MonoBehaviour
     int maxHealth = 10;
     int health = 10;
     int atk = 1;
-    int numCoins = 0;
+    int numCoins = 99;
+    int nextCoinLevel = 100;
 
     //float xStandBox = 1.318955f;
     //float yStandBox = 2.162776f;
@@ -159,7 +160,7 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("Bounce!");
 
             enemy.takeDamage(atk);
-            damageText.showDamage(footCollider.transform.position, atk, 'y');
+            eventText.showDamage(footCollider.transform.position, atk, 'y');
 
             if(enemy.getHealth() <= 0)
                 incrementCoins();
@@ -176,7 +177,7 @@ public class PlayerController : MonoBehaviour
             else
                 wallIsLeft = false;
 
-            Debug.Log("Is wall left?   " + wallIsLeft);
+            //Debug.Log("Is wall left?   " + wallIsLeft);
         }
 
         //Taking damage from an enemy
@@ -202,7 +203,7 @@ public class PlayerController : MonoBehaviour
             else
                 wallIsLeft = false;
 
-            Debug.Log("Is wall left?   " + wallIsLeft);
+            //Debug.Log("Is wall left?   " + wallIsLeft);
         }
 
         takeDamageFromEnemy(collided);
@@ -231,7 +232,7 @@ public class PlayerController : MonoBehaviour
         if (touchingWall && (collided.gameObject.tag.Equals("Wall") || collided.gameObject.tag.Equals("Platform")))
         {
             touchingWall = false;
-            Debug.Log("NOTTOUCHINGWALL");
+            //Debug.Log("NOTTOUCHINGWALL");
         }
             
     }
@@ -244,6 +245,8 @@ public class PlayerController : MonoBehaviour
             incrementCoins();
             collided.gameObject.SetActive(false);
         }
+        if(collided.tag == "Pit" && headCollider.IsTouching(collided))
+            die();
     }
 
     private void takeDamageFromEnemy(Collider2D collided)
@@ -264,20 +267,14 @@ public class PlayerController : MonoBehaviour
             iFrames = 780;
 
             health -= enemy.getAtk();
-            damageText.showDamage(bodyCollider.transform.position, atk, 'r');
+            if (health < 0)
+                health = 0;
+            eventText.showDamage(bodyCollider.transform.position, enemy.getAtk(), 'r');
 
             //Debug.Log("OUCH!");
 
             if (isDead())
-            {
-                this.gameObject.layer = LayerMask.NameToLayer("DeadMario");
-                animator.SetBool("isDead", true);
-                deadTimer = 4 * 60;
-                rb.velocity = new Vector2(0, 11f);
-                stunTimer = 0;
-                animator.SetInteger("stunTime", stunTimer);
-                iFrames = 0;
-            }
+                die();
 
         }
     }
@@ -365,6 +362,18 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void die()
+    {
+        setHealth(0);
+        this.gameObject.layer = LayerMask.NameToLayer("DeadMario");
+        animator.SetBool("isDead", true);
+        deadTimer = 4 * 60;
+        rb.velocity = new Vector2(0, 11f);
+        stunTimer = 0;
+        animator.SetInteger("stunTime", stunTimer);
+        iFrames = 0;
+    }
+
     public int getHealth()
     {
         return health;
@@ -391,13 +400,19 @@ public class PlayerController : MonoBehaviour
     {
         return numCoins;
     }
+    public int getNextLevel()
+    {
+        return nextCoinLevel;
+    }
     public void incrementCoins()
     {
         numCoins++;
-        if(numCoins % 100 == 0)
+        if(numCoins == nextCoinLevel)
         {
             setMaxHealth(getMaxHealth() + 5);
             setHealth(getHealth() + 5);
+            nextCoinLevel *= 2;
+            eventText.showHealth(new Vector2(headCollider.transform.position.x, headCollider.transform.position.y + 1.5f), 5);
         }
     }
 }

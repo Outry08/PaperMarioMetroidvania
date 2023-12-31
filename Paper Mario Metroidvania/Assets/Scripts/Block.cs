@@ -91,6 +91,7 @@ public class Block : MonoBehaviour
             hasThing = false;
             this.gameObject.transform.localScale = new Vector3(0.057f, 0.057f, 0.057f);
             this.gameObject.GetComponent<BoxCollider2D>().size = new Vector2(17.53f, 17.53f);
+            destroyable = true;
         }
     }
 
