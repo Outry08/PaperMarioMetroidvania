@@ -11,6 +11,7 @@ TagManager:
   - Coin
   - Pit
   - Heart
+  - Mushroom
   layers:
   - Default
   - TransparentFX

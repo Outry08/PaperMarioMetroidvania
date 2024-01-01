@@ -49,8 +49,6 @@ public class TextTracker : MonoBehaviour
         //Damage Text
         for(int i = 0; i < activeSprites.Count; i++)
         {
-
-            Debug.Log(activeSprites.Count);
             if (activeEventTimers[i] > 0)
                 activeEventTimers[i]--;
 
@@ -109,7 +107,7 @@ public class TextTracker : MonoBehaviour
         activeEventTimers.Add(120);
     }
 
-    public void showHealth(Vector2 position, int amnt)
+    public void showHealth(Vector2 position, string amnt)
     {
         SpriteRenderer heart;
         Text currentText;

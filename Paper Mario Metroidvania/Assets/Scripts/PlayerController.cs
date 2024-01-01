@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class PlayerController : MonoBehaviour
 {
+    public SceneChanger sceneChanger;
+
     public Rigidbody2D rb;
     public Transform transfrm;
     public InputAction playerMovement;
@@ -27,7 +30,7 @@ public class PlayerController : MonoBehaviour
     int maxHealth = 10;
     int health = 10;
     int atk = 1;
-    int numCoins = 99;
+    int numCoins = 0;
     int nextCoinLevel = 100;
 
     //float xStandBox = 1.318955f;
@@ -86,8 +89,9 @@ public class PlayerController : MonoBehaviour
     {
         if (isDead() && deadTimer == -1)
         {
-            Debug.Log("DED");
+            //Debug.Log("DED");
             this.gameObject.SetActive(false);
+            sceneChanger.changeScene("GameOver");
         }
 
         if (!isDead())
@@ -245,8 +249,14 @@ public class PlayerController : MonoBehaviour
             incrementCoins();
             collided.gameObject.SetActive(false);
         }
-        if(collided.tag == "Pit" && headCollider.IsTouching(collided))
+        else if(collided.tag == "Pit" && headCollider.IsTouching(collided))
             die();
+        else if(collided.tag == "Mushroom")
+        {
+            collided.gameObject.SetActive(false);
+            addHealth(5);
+        }
+
     }
 
     private void takeDamageFromEnemy(Collider2D collided)
@@ -382,6 +392,13 @@ public class PlayerController : MonoBehaviour
     {
         health = num;
     }
+    public void addHealth(int amnt)
+    {
+        health += amnt;
+        if (health > maxHealth)
+            health = maxHealth;
+        eventText.showHealth(new Vector2(headCollider.transform.position.x, headCollider.transform.position.y + 1.5f), amnt.ToString());
+    }
     public int getMaxHealth()
     {
         return maxHealth;
@@ -412,7 +429,7 @@ public class PlayerController : MonoBehaviour
             setMaxHealth(getMaxHealth() + 5);
             setHealth(getHealth() + 5);
             nextCoinLevel *= 2;
-            eventText.showHealth(new Vector2(headCollider.transform.position.x, headCollider.transform.position.y + 1.5f), 5);
+            eventText.showHealth(new Vector2(headCollider.transform.position.x, headCollider.transform.position.y + 1.5f), "+" + 5);
         }
     }
 }

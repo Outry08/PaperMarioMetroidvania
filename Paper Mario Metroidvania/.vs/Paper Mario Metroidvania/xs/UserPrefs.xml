@@ -1,13 +1,14 @@
 ﻿<Properties StartupConfiguration="{F5160B87-0B55-A80A-C941-EFC97EC7CF4F}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/TextTracker.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PlayerController.cs">
     <Files>
-      <File FileName="Assets/Scripts/PlayerController.cs" Line="418" Column="2" />
-      <File FileName="Assets/Scripts/Enemy.cs" Line="100" Column="13" />
+      <File FileName="Assets/Scripts/PlayerController.cs" Line="6" Column="35" />
+      <File FileName="Assets/Scripts/Enemy.cs" />
       <File FileName="Assets/Scripts/EnemyPositions.cs" />
       <File FileName="Assets/Scripts/CameraController.cs" />
-      <File FileName="Assets/Scripts/TextTracker.cs" Line="131" Column="34" />
+      <File FileName="Assets/Scripts/TextTracker.cs" Line="51" Column="10" />
       <File FileName="Assets/Scripts/Block.cs" />
-      <File FileName="Assets/Scripts/Mushroom.cs" />
+      <File FileName="Assets/Scripts/Mushroom.cs" Line="24" Column="6" />
+      <File FileName="Assets/Scripts/NewGameButton.cs" Line="4" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,7 +16,7 @@
           <Node name="Paper Mario Metroidvania" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="TextTracker.cs" selected="True" />
+                <Node name="PlayerController.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -25,7 +26,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="e1f07c2d-cfd2-4bf9-acd2-3b7dbe097aa4" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="d2e1ef0e-17dc-4dc2-a326-d75ebd71065f" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

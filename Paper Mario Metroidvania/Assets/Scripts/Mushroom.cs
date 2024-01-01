@@ -27,11 +27,7 @@ public class Mushroom : MonoBehaviour
     {
         Collider2D collided = collision.collider;
 
-        if(collided.gameObject.tag == "Player")
-        {
-            this.gameObject.SetActive(false);
-        }
-        else if(shouldTurnAround(collided))
+        if (shouldTurnAround(collided))
         {
             moveDirection *= -1;
             movingLeft = !movingLeft;
