@@ -11,8 +11,11 @@ A 2D-Platformer game in the art style of Paper Mario with planned gameplay eleme
 Open project in unity and click run.
 
 ## Visuals
+Title Screen Image:
+<img src="Title.png" alt="Title Screen">
+
 Gameplay Image:
-<img src="BasicTurn.png" alt="Basic Turn">
+<img src="Gameplay.png" alt="Gameplay">
 
 ## Roadmap
 Create more enemies. 
