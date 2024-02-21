@@ -8,7 +8,7 @@ Paper Mario Metroidvania
 A 2D-Platformer game in the art style of Paper Mario with planned gameplay elements of the Metroidvania genre. Made in Unity with C# scripts. 
 
 ## Running The Program
-Open orject in unity and click run.
+Open project in unity and click run.
 
 ## Visuals
 Gameplay Image:
